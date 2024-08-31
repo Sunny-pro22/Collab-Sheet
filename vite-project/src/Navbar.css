@@ -1,0 +1,45 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #111; /* Background color of the navbar */
+    color: #fff; /* Text color */
+    z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px; /* Adjust height as needed */
+    margin-right: 10px; /* Adjust space between logo and text */
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    background-color:red; /* Red background color */
+    color: #fff;
+    border: none;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    
+    margin-right:50px;
+    cursor: pointer;
+    border-radius: 4px; /* Optional: rounded corners */
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #c0392b; /* Darker red color on hover */
+}

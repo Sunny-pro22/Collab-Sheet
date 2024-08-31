@@ -1,0 +1,166 @@
+.spreadsheet-container {
+
+  position: relative;
+  padding: 20px;
+  background-color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+ 
+  margin-top: 100px;
+}
+
+.spreadsheet-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.spreadsheet-table {
+  width: 100%;
+  height: 100%; 
+  border-collapse: collapse;
+}
+.spreadsheet-table .htCore td,
+.spreadsheet-table .htCore th {
+  height: 40px; /* Adjust this value as needed */
+  line-height: 40px; /* This should match the height for vertical alignment */
+  font-size: 16px; /* Optional: Adjust font size to suit the new cell height */
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.action-button,
+.copy-button,
+.close-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.action-button {
+  background-color: #28a745;
+}
+
+.action-button:hover {
+  background-color: #218838;
+}
+
+.copy-button,
+.close-button {
+  background-color: #007bff;
+}
+
+.copy-button:hover,
+.close-button:hover {
+  background-color: #0056b3;
+}
+
+.uuid-container {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.uuid-text {
+  margin-right: 10px;
+  font-size: 14px;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #dc3545;
+}
+
+.close-button:hover {
+  background-color: #c82333;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: 300px;
+}
+
+.modal-close-button {
+  margin-top: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-close-button:hover {
+  background: #0056b3;
+}
+
+.access-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: 300px;
+}
+
+.access-modal-content h3 {
+  margin-bottom: 15px;
+}
+
+.access-modal-content label {
+  display: block;
+  margin: 10px 0;
+}
+
+.access-modal-content input[type="radio"] {
+  margin-right: 10px;
+}
+
+.access-modal-content input[type="email"] {
+  margin-top: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.access-modal-buttons {
+  margin-top: 20px;
+}
+
+.access-modal-buttons button {
+  margin: 0 10px;
+}
+
+.emailinfo {
+  margin: 0;
+}

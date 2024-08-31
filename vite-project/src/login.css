@@ -1,0 +1,239 @@
+.backdrop {
+
+    position: fixed;
+  
+    top: 0;
+  
+    left: 0;
+  
+    width: 100vw;
+  
+    height: 100vh;
+  
+    background: rgba(0, 0, 0, 0.5);
+  
+    display: flex;
+  
+    justify-content: center;
+  
+    align-items: center;
+  
+    z-index: 1000; 
+  
+  }
+  
+  
+  
+  
+ 
+  
+  .login, .signup {
+  
+    background: white;
+  
+    padding: 20px;
+  
+    border-radius: 10px;
+  
+    width: 300px;
+  
+    position: absolute;
+  
+    top: 50%;
+  
+    transform: translateY(-50%); 
+    z-index: 1001; 
+  
+    display: flex;
+  
+    flex-direction: column;
+  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  
+  }
+  
+  
+  
+  
+
+  
+  .close-button {
+  
+    background: none;
+  
+    border: none; 
+    font-size: 20px; 
+  
+    position: absolute;
+  
+    top: 10px; 
+  
+    right: 10px; 
+    cursor: pointer; 
+  
+  }
+  
+  
+  
+  
+
+  
+  .form-group {
+  
+    margin-bottom: 15px; 
+  
+  }
+  
+  
+
+  
+  input {
+  
+    width: 100%;
+  
+    padding: 10px; 
+  
+    border: 1px solid #ccc; 
+  
+    border-radius: 5px; 
+  
+    box-sizing: border-box;
+    font-size: 16px; 
+  
+    margin-top: 5px; 
+  
+  }
+  
+  
+  
+  
+  /* Submit Button Styling */
+  
+  .submit-button {
+  
+    width: 100%; /* Full width */
+  
+    padding: 10px; /* Padding inside button */
+  
+    background: #4CAF50; /* Green background */
+  
+    color: white; /* White text */
+  
+    border: none; /* No border */
+  
+    border-radius: 5px; /* Rounded corners */
+  
+    cursor: pointer; /* Pointer cursor on hover */
+  
+  }
+  
+  
+  
+  
+  .submit-button:hover {
+  
+    background: #45a049; /* Darker green on hover */
+  
+  }
+  
+  
+  
+  
+  /* Social Login Button Styling */
+  
+  .social-login {
+  
+    margin-top: 20px; /* Space above social login section */
+  
+    display: flex;
+  
+    justify-content: space-between; /* Space buttons evenly */
+  
+  }
+  
+  
+  
+  
+  .social-button {
+  
+    background: #3b5998; /* Default background (Facebook blue) */
+  
+    color: white; /* White text */
+  
+    padding: 10px; /* Padding inside button */
+  
+    border: none; /* No border */
+  
+    border-radius: 5px; /* Rounded corners */
+  
+    cursor: pointer; /* Pointer cursor on hover */
+  
+    flex-grow: 1; /* Make buttons expand equally */
+  
+    text-align: center; /* Center text */
+  
+    margin-right: 10px; /* Space between buttons */
+  
+  }
+  
+  
+  
+  
+  .social-button:last-child {
+  
+    margin-right: 0; /* Remove space on the last button */
+  
+  }
+  
+  
+  
+  
+  .social-button.google {
+  
+    background: #db4437; /* Google red */
+  
+  }
+  
+  
+  
+  
+  .social-button.twitter {
+  
+    background: #1da1f2; /* Twitter blue */
+  
+  }
+  
+  
+  
+  
+  /* Title Styling */
+  
+  .signup-title, .login-title {
+  
+    margin-bottom: 20px; /* Space below title */
+  
+    text-align: center; /* Center align text */
+  
+    font-size: 24px; /* Larger font size for titles */
+  
+    color: #333; /* Darker text color */
+  
+  }
+  
+  /* Success Message Styling */
+  
+  .success-message {
+  
+    background-color: #4CAF50; /* Green background */
+  
+    color: white; /* White text */
+  
+    padding: 10px; /* Padding inside */
+  
+    border-radius: 5px; /* Rounded corners */
+  
+    text-align: center; /* Center align text */
+  
+    margin-bottom: 15px; /* Space below */
+  
+  }

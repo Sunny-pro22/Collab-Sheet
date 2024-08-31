@@ -1,0 +1,43 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.1",
+    "@react-three/drei": "^9.111.3",
+    "@react-three/fiber": "^8.17.6",
+    "@syncfusion/ej2-base": "^26.2.10",
+    "@syncfusion/ej2-react-spreadsheet": "^26.2.11",
+    "@types/three": "^0.167.2",
+    "axios": "^1.7.5",
+    "gsap": "^3.12.5",
+    "handsontable": "^14.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.26.1",
+    "react-table": "^7.8.0",
+    "socialcalc": "^2.3.0",
+    "three": "^0.167.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "vite": "^5.4.1"
+  }
+}

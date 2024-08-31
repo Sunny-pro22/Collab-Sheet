@@ -1,0 +1,92 @@
+body,#root{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+/* 
+#root {
+  
+    background-color: black;
+} */
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+}
+
+.content img {
+    max-width: 500px; 
+    width: 100%;
+    object-fit: cover;
+}
+
+.text-section {
+    max-width: 700px;
+    width: 100%;
+    color: white;
+}
+
+.text-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+}
+
+.create-button, .edit-button {
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px; }
+
+.create-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+}
+
+.edit-button {
+    background-color: #2196F3; 
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #1e87d9; 
+}
+.txt h1{
+    font-size: 6rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.txt h2{
+    margin-top: 0;
+    margin-bottom: 100px;
+    font-size: 2rem;
+}
+.etrid{
+    color:black;
+}
+.error{
+    color: red;
+}
