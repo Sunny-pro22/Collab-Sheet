@@ -17,7 +17,7 @@ Prerequisites
 * Install server dependencies: using npm i
 * Create a .env file in the server directory with the following content:
   ATLAS_URL=your_mongodb_atlas_url
-  SECRET_KEY=your_secret_key
+  SECRET=your_secret_key
 * node app.js
 
 
