@@ -3,6 +3,7 @@ import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import Papa from 'papaparse'; // Import PapaParse
 import "./sheet.css";
 import { useParams } from 'react-router-dom';
 
@@ -12,11 +13,11 @@ function Spreadsheet({ onClose }) {
   const [hotInstance, setHotInstance] = useState(null);
   const [uuid, setUid] = useState(uuidv4());
   const [sdata, setSdata] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [accessModalVisible, setAccessModalVisible] = useState(false);
   const [accessOption, setAccessOption] = useState('personal');
-  const [email, setEmail] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,14 +41,17 @@ function Spreadsheet({ onClose }) {
   useEffect(() => {
     if (containerRef.current) {
       const hot = new Handsontable(containerRef.current, {
-        data: sdata.length ? sdata : Handsontable.helper.createSpreadsheetData(50, 50),
+        data: sdata.length ? sdata : Handsontable.helper.createSpreadsheetData(200, 200),
         colHeaders: true,
         rowHeaders: true,
         licenseKey: 'non-commercial-and-evaluation',
         stretchH: 'all',
-        formulas: true, // Enable the formulas plugin
-        contextMenu: true, // Optional: Enable context menu for easier interaction
-        dropdownMenu: true, // Optional: Enable dropdown menu for easier interaction
+        formulas: true,
+        contextMenu: true,
+        dropdownMenu: true,
+        filters: true, // Enable filtering
+        manualColumnResize: true, // Enable manual column resizing
+        columnSorting: true, // Enable column sorting
       });
       setHotInstance(hot);
 
@@ -58,6 +62,24 @@ function Spreadsheet({ onClose }) {
       };
     }
   }, [sdata]);
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const importCSVData = () => {
+    if (!selectedFile) {
+      alert('Please select a file first.');
+      return;
+    }
+    
+    Papa.parse(selectedFile, {
+      complete: (result) => {
+        setSdata(result.data);
+      },
+      header: false
+    });
+  };
 
   const saveData = async ({ data, email, uuid, accessOption }) => {
     if (accessOption === "email") {
@@ -125,7 +147,21 @@ function Spreadsheet({ onClose }) {
 
   return (
     <div className="spreadsheet-container">
-     
+      
+      {/* File Input Section */}
+      <div className="file-input-container">
+        <label htmlFor="file-upload" className="file-input-label">Upload CSV</label>
+        <input
+          id="file-upload"
+          type="file"
+          className="file-input"
+          accept=".csv"
+          onChange={handleFileChange}
+        />
+        {selectedFile && <span className="file-name">{selectedFile.name}</span>}
+        <button onClick={importCSVData} className="action-button import">Import</button>
+      </div>
+
       <div className="buttons-container">
         <button onClick={openAccessModal} className="action-button">Save</button>
         <div className="uuid-container">
@@ -133,8 +169,8 @@ function Spreadsheet({ onClose }) {
           <button onClick={copyUuidToClipboard} className="copy-button">Copy UUID</button>
         </div>
       </div>
-      <h2 className="spreadsheet-title">Spreadsheet</h2>
       
+      <h2 className="spreadsheet-title">Spreadsheet</h2>
       <div ref={containerRef} className="spreadsheet-table"></div>
 
       {/* Modal */}

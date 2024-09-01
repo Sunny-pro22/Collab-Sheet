@@ -19,6 +19,7 @@
     "axios": "^1.7.5",
     "gsap": "^3.12.5",
     "handsontable": "^14.5.0",
+    "papaparse": "^5.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",

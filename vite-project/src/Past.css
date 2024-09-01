@@ -17,8 +17,8 @@
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 100%; 
-  max-width: 1200px; 
+  width: 100%;
+  max-width: 1200px;
 }
 
 .past-title {
@@ -44,7 +44,7 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
   margin-right: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .create-sheet-btn:hover {
@@ -102,14 +102,14 @@
 }
 
 .sheet-item:hover .sheet-id {
-  bottom: 0; 
+  bottom: 0;
 }
 
 .no-sheets {
   color: white;
   text-align: center;
   font-size: 1.5rem;
-  margin: 20px 0; /* Ensure there's space around the text */
+  margin: 20px 0;
 }
 
 .loading, .error {
@@ -127,5 +127,57 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .past-title {
+    font-size: 2rem;
+  }
+
+  .create-sheet-btn {
+    font-size: 3rem;
+    width: 120px;
+    height: 120px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sheet-item {
+    width: 120px;
+    height: 120px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sheet-id {
+    font-size: 0.8rem;
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .past-container{
+    margin-left: 20px;
+  }
+  .past-title {
+    font-size: 1.5rem;
+  }
+
+  .create-sheet-btn {
+    font-size: 2.5rem;
+    width: 100px;
+    height: 100px;
+  }
+
+  .sheet-item {
+    width: 100px;
+    height: 100px;
+  }
+
+  .sheet-id {
+    font-size: 0.7rem;
+    padding: 6px 0;
   }
 }

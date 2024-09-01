@@ -1,13 +1,12 @@
 .spreadsheet-container {
-
   position: relative;
   padding: 20px;
   background-color: black;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 1200px;
- 
   margin-top: 100px;
+  width: 95%;
 }
 
 .spreadsheet-title {
@@ -19,19 +18,20 @@
 
 .spreadsheet-table {
   width: 100%;
-  height: 100%; 
+  height: auto; /* Adjust height to fit content */
   border-collapse: collapse;
 }
+
 .spreadsheet-table .htCore td,
 .spreadsheet-table .htCore th {
-  height: 40px; 
+  height: 40px;
   line-height: 40px;
   font-size: 16px;
 }
 
 .buttons-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack buttons vertically on small screens */
   align-items: center;
   margin-bottom: 20px;
 }
@@ -46,6 +46,7 @@
   border-radius: 5px;
   color: #fff;
   transition: background-color 0.3s ease;
+  margin-bottom: 10px; /* Add spacing between buttons */
 }
 
 .action-button {
@@ -70,6 +71,8 @@
   color: white;
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* Wrap UUID text on smaller screens */
+  justify-content: center;
 }
 
 .uuid-text {
@@ -163,4 +166,122 @@
 
 .emailinfo {
   margin: 0;
+}
+
+.file-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.file-input-label:hover {
+  background-color: #0056b3;
+}
+
+.file-name {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+}
+
+.import {
+  margin-left: 20px;
+  background-color: mediumslateblue;
+}
+
+.import:hover {
+  background-color: mediumslateblue;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .spreadsheet-title {
+    font-size: 20px;
+  }
+
+  .spreadsheet-table .htCore td,
+  .spreadsheet-table .htCore th {
+    font-size: 14px;
+  }
+
+  .buttons-container {
+    flex-direction: column;
+  }
+
+  .action-button,
+  .copy-button,
+  .close-button {
+    font-size: 12px;
+    padding: 8px 16px;
+    width: 100%; /* Full width buttons on small screens */
+  }
+
+  .uuid-text {
+    font-size: 12px;
+  }
+
+  .modal-content,
+  .access-modal-content {
+    width: 80%;
+  }
+
+  .file-input-label {
+    font-size: 12px;
+  }
+
+  .file-name {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .spreadsheet-title {
+    font-size: 18px;
+  }
+
+  .spreadsheet-table .htCore td,
+  .spreadsheet-table .htCore th {
+    font-size: 12px;
+    height: 30px; /* Adjust height for smaller screens */
+  }
+
+  .action-button,
+  .copy-button,
+  .close-button {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+
+  .uuid-text {
+    font-size: 10px;
+  }
+
+  .modal-content,
+  .access-modal-content {
+    width: 90%;
+  }
+
+  .file-input-label {
+    font-size: 10px;
+  }
+
+  .file-name {
+    font-size: 10px;
+  }
 }
