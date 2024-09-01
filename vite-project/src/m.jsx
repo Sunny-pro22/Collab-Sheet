@@ -3,17 +3,19 @@ import axios from "axios";
 import "./m.css";
 import Sheet from "./spd"; 
 import { useNavigate } from 'react-router-dom';
+
 export default function Croom({ onClose }) {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [wait, setWait] = useState(false);
   const [error, setError] = useState("");
-  const [user,setUser]=useState("");
-  useEffect(()=>{
-    setUser(localStorage.getItem("email"))
-  },[])
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    setUser(localStorage.getItem("email"));
+  }, []);
+
   const createRoom = async () => {
-  
     if (!id.trim()) {
       setError("Please enter a valid ID.");
       return;
@@ -27,17 +29,16 @@ export default function Croom({ onClose }) {
       }
     };
     try {
-      const res = await axios.post("http://localhost:1313/spd", { id,user}, config);
+      const res = await axios.post("https://collab-sheet-5.onrender.com/spd", { id, user }, config);
       console.log(res.data);
-      if(res.data=="Access denied"){
+      if (res.data === "Access denied") {
         setError("Access denied");
         setId("");
-      }
-      else if (res.data !== "OK") {
+      } else if (res.data !== "OK") {
         setError("No such sheet present.");
         setId("");
       } else {
-        navigate(`/data/${id}`)
+        navigate(`/data/${id}`);
       }
     } catch (error) {
       setError("Error creating room. Please try again.");
@@ -48,7 +49,6 @@ export default function Croom({ onClose }) {
   };
 
   const handleCloseSheet = () => {
-    setShowSheet(false);
     onClose();
   };
 
@@ -56,7 +56,10 @@ export default function Croom({ onClose }) {
     <>
       {wait ? (
         <div className="modal">
-          <div className="loader">Loading...</div>
+          <div className="loading-animation">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Loading...</p>
+          </div>
         </div>
       ) : (
         <div className="modal">
@@ -73,7 +76,6 @@ export default function Croom({ onClose }) {
           <button className="rsub" onClick={createRoom}>
             Enter
           </button>
-          
         </div>
       )}
     </>

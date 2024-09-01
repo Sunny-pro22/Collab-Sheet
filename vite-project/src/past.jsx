@@ -27,7 +27,7 @@ export default function Past() {
             'Content-Type': 'application/json'
           }
         };
-        const res = await axios.post('http://localhost:1313/crtdSheet', { email: userEmail }, config);
+        const res = await axios.post('https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
         if (res.data.success) {
           setUids(res.data.uids);
         } else {
@@ -42,6 +42,7 @@ export default function Past() {
 
     fetchUids();
   }, []);
+
   const handleClick = () => {
     navigate("/sheet");
   };
@@ -53,8 +54,13 @@ export default function Past() {
         <div className="sheet-item create-sheet-btn" onClick={handleClick} title="Create New Sheet">
           <span className="plus-sign">+</span>
         </div>
-        {uids.length === 0 ? (
-          <div className="no-sheets"></div>
+        {loading ? (
+          <div className="loading-animation">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Loading sheets...</p>
+          </div>
+        ) : uids.length === 0 ? (
+          <div className="no-sheets">No sheets available</div>
         ) : (
           uids.map((id, index) => (
             <div

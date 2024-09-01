@@ -1,4 +1,4 @@
-import './Login.css';
+import './login.css';
 import gsap from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
@@ -19,6 +19,7 @@ export default function Login({ show, onClose }) {
   const [successMessage, setSuccessMessage] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [emptyFieldError, setEmptyFieldError] = useState(false);
+  const [loading, setLoading] = useState(false); // New state for loading
 
   useEffect(() => {
     if (show) {
@@ -43,16 +44,23 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("http://localhost:1313/login", { email, password });
-    if (res.data !== "err") {
-      setSuccessMessage('Login successful!');
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("name", res.data.name);
-      localStorage.setItem("phoneNumber", res.data.phoneNumber);
-      setSuccess(true);
-      window.location.reload(); 
-    } else {
-      setErrl(true);
+    setLoading(true); // Show loading spinner
+    try {
+      const res = await axios.post("https://collab-sheet-5.onrender.com/login", { email, password });
+      if (res.data !== "err") {
+        setSuccessMessage('Login successful!');
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("phoneNumber", res.data.phoneNumber);
+        setSuccess(true);
+        window.location.reload(); 
+      } else {
+        setErrl(true);
+      }
+    } catch (error) {
+      setErr(true); // Handle network errors
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
@@ -68,16 +76,23 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("http://localhost:1313/register", { name, email, password, phoneNumber });
-    if (res.data === "OK") {
-      localStorage.setItem("name", name);
-      localStorage.setItem("email", email);
-      localStorage.setItem("phoneNumber", phoneNumber);
-      setSuccessMessage('Registration successful!');
-      setSuccess(true);
-      window.location.reload(); 
-    } else {
-      setErr(true);
+    setLoading(true); // Show loading spinner
+    try {
+      const res = await axios.post("https://collab-sheet-5.onrender.com/register", { name, email, password, phoneNumber });
+      if (res.data === "OK") {
+        localStorage.setItem("name", name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("phoneNumber", phoneNumber);
+        setSuccessMessage('Registration successful!');
+        setSuccess(true);
+        window.location.reload(); 
+      } else {
+        setErr(true);
+      }
+    } catch (error) {
+      setErr(true); // Handle network errors
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
@@ -107,6 +122,7 @@ export default function Login({ show, onClose }) {
             <button className="close-button" onClick={onClose}>×</button>
             <h2 className="login-title">Login to Your Account</h2>
             {success && <p className="success-message">{successMessage}</p>}
+            {loading && <div className="loading-spinner"></div>} {/* Show spinner */}
             <form className="login-form">
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
@@ -134,7 +150,7 @@ export default function Login({ show, onClose }) {
               </div>
               {errl && <p style={{ color: 'red', textAlign: 'center' }}>Email or password is wrong</p>}
               {emptyFieldError && <p style={{ color: 'red', textAlign: 'center' }}>Please fill in all fields</p>}
-              <button onClick={handleLogin} type="submit" className="submit-button">Login</button>
+              <button onClick={handleLogin} type="submit" className="submit-button" disabled={loading}>Login</button>
             </form>
             <div className="social-login">
               <button className="social-button google">Login with Google</button>
@@ -147,6 +163,7 @@ export default function Login({ show, onClose }) {
               <button className="close-button" onClick={handleCloseSignup}>×</button>
               <h2 className="signup-title">Create Your Account</h2>
               {success && <p className="success-message">{successMessage}</p>}
+              {loading && <div className="loading-spinner"></div>} {/* Show spinner */}
               <form className="signup-form">
                 <div className="form-group">
                   <label htmlFor="signup-name">Name:</label>
@@ -213,7 +230,7 @@ export default function Login({ show, onClose }) {
                 </div>
                 {emptyFieldError && <p style={{ color: 'red', textAlign: 'center' }}>Please fill in all fields</p>}
                 {err && <p style={{ color: 'red', textAlign: 'center' }}>Email already exists</p>}
-                <button onClick={handleSignup} type="submit" className="submit-button">Sign Up</button>
+                <button onClick={handleSignup} type="submit" className="submit-button" disabled={loading}>Sign Up</button>
               </form>
             </div>
           )}
