@@ -312,7 +312,7 @@
 
 @media (max-width: 480px) {
   .access-modal-content {
-    width: 90%;
+     position: fixed;
   }
 
   .access-modal-content h3 {
