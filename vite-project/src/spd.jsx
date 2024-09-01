@@ -25,7 +25,7 @@ function Spreadsheet({ onClose }) {
         setUid(id);
         try {
           console.log(id);
-          const res = await axios.post(`http://localhost:1313/data/${id}`);
+          const res = await axios.post(`https://collab-sheet-5.onrender.com/data/${id}`);
           setSdata(res.data.data || []);
         } catch (error) {
           console.error("Error fetching sheet data:", error);
@@ -88,7 +88,7 @@ function Spreadsheet({ onClose }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:1313/save', { data, email, uuid, accessOption });
+      const response = await axios.post('https://collab-sheet-5.onrender.com/save', { data, email, uuid, accessOption });
       if (response.status === 200) {
         setModalMessage('Data saved successfully!');
       } else {
