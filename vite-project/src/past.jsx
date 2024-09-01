@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './Past.css'; 
 import img1 from './pic/1.png';
-import gsap from "gsap";
 import { useNavigate } from 'react-router-dom';
 
 export default function Past() {
@@ -20,6 +19,7 @@ export default function Past() {
     const fetchUids = async () => {
       const userEmail = localStorage.getItem('email');
       setUser(userEmail);
+      console.log('Fetching UIDs for:', userEmail);
 
       try {
         const config = {
@@ -27,12 +27,11 @@ export default function Past() {
             'Content-Type': 'application/json'
           }
         };
-        const res = await axios.post('https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
+        const res = await axios.post('http://https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
+        
         if (res.data.success) {
           setUids(res.data.uids);
-        } else {
-          setError('Failed to fetch UIDs');
-        }
+        } 
       } catch (error) {
         setError('Error fetching UIDs');
       } finally {
@@ -41,7 +40,7 @@ export default function Past() {
     };
 
     fetchUids();
-  }, []);
+  }, []); // Empty dependency array to run only on mount
 
   const handleClick = () => {
     navigate("/sheet");
@@ -59,6 +58,7 @@ export default function Past() {
             <div className="loading-spinner"></div>
             <p className="loading-text">Loading sheets...</p>
           </div>
+       
         ) : uids.length === 0 ? (
           <div className="no-sheets">No sheets available</div>
         ) : (

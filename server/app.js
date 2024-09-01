@@ -182,11 +182,13 @@ app.post("/crtdSheet", async (req, res) => {
   console.log(req.body.email )
   try {
     const sheets = await SpreadsheetModel.find({ email: req.body.email });
-    console.log(sheets.size)
+    console.log(sheets.length)
     if (sheets.length > 0) {
       const uids = sheets.map(sheet => sheet.uid);  
       res.json({ success: true, uids });
-    } 
+    }else{
+      res.json('error');
+    }
   } catch (error) {
     res.json({ success: false, message: 'Error retrieving sheets', error: error.message });
   }

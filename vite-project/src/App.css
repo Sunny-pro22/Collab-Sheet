@@ -93,6 +93,9 @@ body, #root {
 
 @media (max-width: 768px) {
     .content {
+        margin-top: 50px;
+        padding-top: 30px;
+        padding-bottom: 50px;
         flex-direction: column;
         text-align: center;
     }

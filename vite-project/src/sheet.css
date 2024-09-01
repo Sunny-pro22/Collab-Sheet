@@ -285,3 +285,50 @@
     font-size: 10px;
   }
 }
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .access-modal-content {
+    width: 80%;
+  }
+
+  .access-modal-content h3 {
+    font-size: 18px;
+  }
+
+  .access-modal-content label {
+    font-size: 14px;
+  }
+
+  .access-modal-content input[type="radio"] {
+    margin-right: 5px;
+  }
+
+  .access-modal-buttons button {
+    font-size: 12px;
+    padding: 8px 12px;
+    width: 100%; /* Full width buttons on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .access-modal-content {
+    width: 90%;
+  }
+
+  .access-modal-content h3 {
+    font-size: 16px;
+  }
+
+  .access-modal-content label {
+    font-size: 12px;
+  }
+
+  .access-modal-content input[type="radio"] {
+    margin-right: 5px;
+  }
+
+  .access-modal-buttons button {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+}
