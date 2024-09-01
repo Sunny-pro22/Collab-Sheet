@@ -1,4 +1,4 @@
-import './Login.css';
+import './login.css';
 import gsap from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
