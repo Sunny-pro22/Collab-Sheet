@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Papa from 'papaparse'; // Import PapaParse
 import "./sheet.css";
 import { useParams } from 'react-router-dom';
-
+import io from "socket.io-client";
 function Spreadsheet({ onClose }) {
   const { id } = useParams();
   const containerRef = useRef(null);
@@ -18,6 +18,23 @@ function Spreadsheet({ onClose }) {
   const [modalMessage, setModalMessage] = useState('');
   const [accessModalVisible, setAccessModalVisible] = useState(false);
   const [accessOption, setAccessOption] = useState('personal');
+  const [socket, setSocket] = useState(null); 
+  useEffect(() => {
+    const socketInstance = io("http://localhost:1313");
+    socketInstance.on("connect", () => {
+        console.log("Connected to server");
+    });
+    setSocket(socketInstance);
+    return () => {
+        socketInstance.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (socket && id) { 
+        socket.emit("crt-room", id); 
+    }
+  }, [id, socket]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +79,20 @@ function Spreadsheet({ onClose }) {
       };
     }
   }, [sdata]);
+  useEffect(() => {
+    if (socket) {
+        socket.on("data-updated", (newData) => {
+            if (hotInstance) {
+                hotInstance.loadData(newData); 
+            }
+        });
+    }
+    return () => {
+        if (socket) {
+            socket.off("data-updated");
+        }
+    };
+  }, [socket, hotInstance]);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -88,9 +119,10 @@ function Spreadsheet({ onClose }) {
     }
 
     try {
-      const response = await axios.post('https://collab-sheet-5.onrender.com/save', { data, email, uuid, accessOption });
+      const response = await axios.post('http://localhost:1313/save', { data, email, uuid, accessOption });
       if (response.status === 200) {
         setModalMessage('Data saved successfully!');
+        socket.emit("save-data", data, uuid);
       } else {
         setModalMessage('Failed to save data.');
       }
@@ -147,7 +179,30 @@ function Spreadsheet({ onClose }) {
 
   return (
     <div className="spreadsheet-container">
-      
+      {accessModalVisible && (
+        <div className="modal-overlay">
+          <div className="access-modal-content">
+            <h3>Select Access Option</h3>
+            <label>
+              <input type="radio" value="everyone" checked={accessOption === 'everyone'} onChange={handleAccessOptionChange} />
+              Everyone
+            </label>
+            <label>
+              <input type="radio" value="personal" checked={accessOption === 'personal'} onChange={handleAccessOptionChange} />
+              Personal
+            </label>
+            <label>
+              <input type="radio" value="email" checked={accessOption === 'email'} onChange={handleAccessOptionChange} />
+              Email Specific
+            </label>
+            <p className='emailinfo'>(only your organisation member can access)</p>
+            <div className="access-modal-buttons">
+              <button onClick={handleAccessSubmit} className="modal-close-button">OK</button>
+              <button onClick={closeAccessModal} className="modal-close-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* File Input Section */}
       <div className="file-input-container">
         <label htmlFor="file-upload" className="file-input-label">Upload CSV</label>
@@ -184,30 +239,7 @@ function Spreadsheet({ onClose }) {
       )}
 
       {/* Access Control Modal */}
-      {accessModalVisible && (
-        <div className="modal-overlay">
-          <div className="access-modal-content">
-            <h3>Select Access Option</h3>
-            <label>
-              <input type="radio" value="everyone" checked={accessOption === 'everyone'} onChange={handleAccessOptionChange} />
-              Everyone
-            </label>
-            <label>
-              <input type="radio" value="personal" checked={accessOption === 'personal'} onChange={handleAccessOptionChange} />
-              Personal
-            </label>
-            <label>
-              <input type="radio" value="email" checked={accessOption === 'email'} onChange={handleAccessOptionChange} />
-              Email Specific
-            </label>
-            <p className='emailinfo'>(only your organisation member can access)</p>
-            <div className="access-modal-buttons">
-              <button onClick={handleAccessSubmit} className="modal-close-button">OK</button>
-              <button onClick={closeAccessModal} className="modal-close-button">Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }

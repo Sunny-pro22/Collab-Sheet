@@ -1,19 +1,32 @@
 const express = require("express");
-const app = express();
+const http = require("http");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
 const bodyParser = require("body-parser");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+
 const User = require('./userSchema.js');
 const SpreadsheetModel = require("./spd.js");
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
 
 dotenv.config();
 
+const app = express();
+const server2 = http.createServer(app);
+
+const { Server } = require("socket.io");
+const io = new Server(server2, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+// Middleware setup
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -46,6 +59,30 @@ app.use(session({
   secret: process.env.SECRET
 }));
 
+// Socket.IO event handling
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("crt-room", (roomId) => {
+    socket.join(roomId);
+    console.log(`User joined room: ${roomId}`);
+  });
+
+  socket.on("save-data", (data, roomId) => {
+    socket.to(roomId).emit("data-updated", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+
+  // Error handling for socket
+  socket.on("error", (err) => {
+    console.error("Socket error:", err);
+  });
+});
+
+// Passport.js authentication setup
 passport.use(new LocalStrategy({
   usernameField: 'email'
 }, async (email, password, done) => {
@@ -78,6 +115,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+// Routes
 app.post('/register', async (req, res) => {
   const { name, email, password, phoneNumber } = req.body;
   try {
@@ -115,15 +153,15 @@ app.get('/logout', (req, res) => {
   req.logout();
   res.send('Logged out');
 });
+
 app.post('/save', async (req, res) => {
   try {
     const { uuid, email, data, accessOption } = req.body;
 
-    // Find the document with the given uuid or create a new one
     const result = await SpreadsheetModel.findOneAndUpdate(
-      { uid: uuid }, // Query to find the document by UUID
-      { email, data, accessOption }, // Fields to update
-      { new: true, upsert: true } // Create the document if it doesn't exist
+      { uid: uuid }, 
+      { email, data, accessOption }, 
+      { new: true, upsert: true }
     );
 
     res.status(200).json({ message: 'Data saved successfully!' });
@@ -133,9 +171,7 @@ app.post('/save', async (req, res) => {
   }
 });
 
-
 app.post('/data/:id', async (req, res) => {
-    console.log(req.body.id)
   try {
     const sheet = await SpreadsheetModel.findOne({ uid: req.params.id });
     if (sheet) {
@@ -148,17 +184,17 @@ app.post('/data/:id', async (req, res) => {
     res.status(500).json({ message: 'Error retrieving sheet', error });
   }
 });
+
 app.post("/spd", async (req, res) => {
-  const userEmail=req.body.user;
+  const userEmail = req.body.user;
   try {
-    const sheet = await SpreadsheetModel.findOne({ uid: req.body.id});
+    const sheet = await SpreadsheetModel.findOne({ uid: req.body.id });
 
     if (!sheet) {
       return res.json('Sheet not found');
     }
 
     if (sheet.accessOption === 'everyone') {
-     
       return res.json("OK");
     } else if (sheet.accessOption === 'personal') {
       if (userEmail === sheet.email) {
@@ -166,12 +202,12 @@ app.post("/spd", async (req, res) => {
       } else {
         return res.json("Access denied");
       }
-    } else if (sheet.accessOption ===userEmail.split('@')[1]) {
-        return res.json("OK");
-      } else {
-        return res.json("Access denied");
-      }
-    
+    } else if (sheet.accessOption === userEmail.split('@')[1]) {
+      return res.json("OK");
+    } else {
+      return res.json("Access denied");
+    }
+
   } catch (error) {
     console.error('Error retrieving sheet:', error);
     res.json('Error retrieving sheet');
@@ -179,14 +215,12 @@ app.post("/spd", async (req, res) => {
 });
 
 app.post("/crtdSheet", async (req, res) => {
-  console.log(req.body.email )
   try {
     const sheets = await SpreadsheetModel.find({ email: req.body.email });
-    console.log(sheets.length)
     if (sheets.length > 0) {
       const uids = sheets.map(sheet => sheet.uid);  
       res.json({ success: true, uids });
-    }else{
+    } else {
       res.json('error');
     }
   } catch (error) {
@@ -194,6 +228,7 @@ app.post("/crtdSheet", async (req, res) => {
   }
 });
 
-app.listen(1313, () => {
+// Start the server
+server2.listen(1313, () => {
   console.log("Listening on port 1313");
 });

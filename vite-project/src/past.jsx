@@ -27,7 +27,7 @@ export default function Past() {
             'Content-Type': 'application/json'
           }
         };
-        const res = await axios.post('http://https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
+        const res = await axios.post('http://localhost:1313/crtdSheet', { email: userEmail }, config);
         
         if (res.data.success) {
           setUids(res.data.uids);
@@ -40,7 +40,7 @@ export default function Past() {
     };
 
     fetchUids();
-  }, []); // Empty dependency array to run only on mount
+  }, []); 
 
   const handleClick = () => {
     navigate("/sheet");
@@ -58,7 +58,8 @@ export default function Past() {
             <div className="loading-spinner"></div>
             <p className="loading-text">Loading sheets...</p>
           </div>
-       
+        ) : error ? (
+          <div className="error-message">{error}</div>
         ) : uids.length === 0 ? (
           <div className="no-sheets">No sheets available</div>
         ) : (

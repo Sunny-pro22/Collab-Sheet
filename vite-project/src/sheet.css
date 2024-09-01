@@ -309,15 +309,18 @@
     width: 100%; /* Full width buttons on small screens */
   }
 }
-
 @media (max-width: 480px) {
+  .modal-overlay{
+    position: fixed;
+  }
   .access-modal-content {
-    width: 90%;
+    position: fixed;
+    
   }
 
   .access-modal-content h3 {
     font-size: 16px;
-  }
+  } 
 
   .access-modal-content label {
     font-size: 12px;
@@ -332,3 +335,4 @@
     padding: 6px 10px;
   }
 }
+     
