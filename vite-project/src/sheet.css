@@ -287,6 +287,7 @@
 }
 /* Responsive Styles */
 @media (max-width: 768px) {
+ 
   .access-modal-content {
     width: 80%;
   }
@@ -311,6 +312,11 @@
 }
 
 @media (max-width: 480px) {
+   .modal-overlay{
+    position: fixed;
+    margin-top:20px;
+    margin-left:20px;
+  }
   .access-modal-content {
      position: fixed;
     width:30%;
