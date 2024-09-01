@@ -1,14 +1,24 @@
 /
 ├── server/            # Backend code
+
 │   ├── app.js         # Entry point for the server
+
 │   ├── .env           # Environment variables (ATLAS_URL and secret key)
+
 │   └── ...            # Other server-related files
+
 │
+
 └── vite-project/      # Frontend code
+
     ├── src/           # Source files
+    
     ├── index.html     # Main HTML file
+    
     ├── package.json   # Frontend dependencies and scripts
+    
     └── ...            # Other frontend-related files
+    
 Prerequisites
 * Node.js: Ensure you have Node.js installed (preferably the latest LTS version).
 * npm: Comes with Node.js.
