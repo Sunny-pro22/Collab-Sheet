@@ -147,6 +147,30 @@ function Spreadsheet({ onClose }) {
 
   return (
     <div className="spreadsheet-container">
+      {accessModalVisible && (
+        <div className="modal-overlay">
+          <div className="access-modal-content">
+            <h3>Select Access Option</h3>
+            <label>
+              <input type="radio" value="everyone" checked={accessOption === 'everyone'} onChange={handleAccessOptionChange} />
+              Everyone
+            </label>
+            <label>
+              <input type="radio" value="personal" checked={accessOption === 'personal'} onChange={handleAccessOptionChange} />
+              Personal
+            </label>
+            <label>
+              <input type="radio" value="email" checked={accessOption === 'email'} onChange={handleAccessOptionChange} />
+              Email Specific
+            </label>
+            <p className='emailinfo'>(only your organisation member can access)</p>
+            <div className="access-modal-buttons">
+              <button onClick={handleAccessSubmit} className="modal-close-button">OK</button>
+              <button onClick={closeAccessModal} className="modal-close-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* File Input Section */}
       <div className="file-input-container">
@@ -184,30 +208,7 @@ function Spreadsheet({ onClose }) {
       )}
 
       {/* Access Control Modal */}
-      {accessModalVisible && (
-        <div className="modal-overlay">
-          <div className="access-modal-content">
-            <h3>Select Access Option</h3>
-            <label>
-              <input type="radio" value="everyone" checked={accessOption === 'everyone'} onChange={handleAccessOptionChange} />
-              Everyone
-            </label>
-            <label>
-              <input type="radio" value="personal" checked={accessOption === 'personal'} onChange={handleAccessOptionChange} />
-              Personal
-            </label>
-            <label>
-              <input type="radio" value="email" checked={accessOption === 'email'} onChange={handleAccessOptionChange} />
-              Email Specific
-            </label>
-            <p className='emailinfo'>(only your organisation member can access)</p>
-            <div className="access-modal-buttons">
-              <button onClick={handleAccessSubmit} className="modal-close-button">OK</button>
-              <button onClick={closeAccessModal} className="modal-close-button">Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }
