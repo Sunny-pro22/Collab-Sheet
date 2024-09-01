@@ -24,9 +24,9 @@
 }
 .spreadsheet-table .htCore td,
 .spreadsheet-table .htCore th {
-  height: 40px; /* Adjust this value as needed */
-  line-height: 40px; /* This should match the height for vertical alignment */
-  font-size: 16px; /* Optional: Adjust font size to suit the new cell height */
+  height: 40px; 
+  line-height: 40px;
+  font-size: 16px;
 }
 
 .buttons-container {

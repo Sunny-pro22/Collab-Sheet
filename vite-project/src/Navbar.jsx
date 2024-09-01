@@ -30,7 +30,7 @@ export default function Navbar() {
             <nav className="navbar">
                 <div className="logo">
                     <img src={logo} alt="Logo" />
-                    <h1>Colloab SHeet</h1>
+                    <h1>Collab Sheet</h1>
                 </div>
                 <div className="nav-buttons">
                     {isLoggedIn ? (
