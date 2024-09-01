@@ -3,10 +3,11 @@ import Handsontable from 'handsontable';
 import 'handsontable/dist/handsontable.full.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import Papa from 'papaparse'; // Import PapaParse
+import Papa from 'papaparse'; 
 import "./sheet.css";
 import { useParams } from 'react-router-dom';
 import io from "socket.io-client";
+
 function Spreadsheet({ onClose }) {
   const { id } = useParams();
   const containerRef = useRef(null);
@@ -18,21 +19,22 @@ function Spreadsheet({ onClose }) {
   const [modalMessage, setModalMessage] = useState('');
   const [accessModalVisible, setAccessModalVisible] = useState(false);
   const [accessOption, setAccessOption] = useState('personal');
-  const [socket, setSocket] = useState(null); 
+  const [socket, setSocket] = useState(null);
+
   useEffect(() => {
-    const socketInstance = io("http://localhost:1313");
+    const socketInstance = io("https://collab-sheet-5.onrender.com/data");
     socketInstance.on("connect", () => {
-        console.log("Connected to server");
+      console.log("Connected to server");
     });
     setSocket(socketInstance);
     return () => {
-        socketInstance.disconnect();
+      socketInstance.disconnect();
     };
   }, []);
 
   useEffect(() => {
     if (socket && id) { 
-        socket.emit("crt-room", id); 
+      socket.emit("crt-room", id); 
     }
   }, [id, socket]);
 
@@ -41,7 +43,6 @@ function Spreadsheet({ onClose }) {
       if (id && typeof id === 'string' && id.trim() !== "") {
         setUid(id);
         try {
-          console.log(id);
           const res = await axios.post(`https://collab-sheet-5.onrender.com/data/${id}`);
           setSdata(res.data.data || []);
         } catch (error) {
@@ -66,9 +67,9 @@ function Spreadsheet({ onClose }) {
         formulas: true,
         contextMenu: true,
         dropdownMenu: true,
-        filters: true, // Enable filtering
-        manualColumnResize: true, // Enable manual column resizing
-        columnSorting: true, // Enable column sorting
+        filters: true,
+        manualColumnResize: true,
+        columnSorting: true,
       });
       setHotInstance(hot);
 
@@ -79,18 +80,20 @@ function Spreadsheet({ onClose }) {
       };
     }
   }, [sdata]);
+
   useEffect(() => {
     if (socket) {
-        socket.on("data-updated", (newData) => {
-            if (hotInstance) {
-                hotInstance.loadData(newData); 
-            }
-        });
+      socket.on("data-updated", (newData) => {
+        if (hotInstance) {
+          hotInstance.loadData(newData);
+          setSdata(newData); // Update local state to keep in sync
+        }
+      });
     }
     return () => {
-        if (socket) {
-            socket.off("data-updated");
-        }
+      if (socket) {
+        socket.off("data-updated");
+      }
     };
   }, [socket, hotInstance]);
 
@@ -107,6 +110,7 @@ function Spreadsheet({ onClose }) {
     Papa.parse(selectedFile, {
       complete: (result) => {
         setSdata(result.data);
+        socket.emit("update-data", { data: result.data, uuid }); // Notify server of data update
       },
       header: false
     });
@@ -119,10 +123,10 @@ function Spreadsheet({ onClose }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:1313/save', { data, email, uuid, accessOption });
+      const response = await axios.post('https://collab-sheet-5.onrender.com/data/save', { data, email, uuid, accessOption });
       if (response.status === 200) {
         setModalMessage('Data saved successfully!');
-        socket.emit("save-data", data, uuid);
+        socket.emit("save-data", { data, uuid }); // Notify server of saved data
       } else {
         setModalMessage('Failed to save data.');
       }
@@ -203,6 +207,7 @@ function Spreadsheet({ onClose }) {
           </div>
         </div>
       )}
+      
       {/* File Input Section */}
       <div className="file-input-container">
         <label htmlFor="file-upload" className="file-input-label">Upload CSV</label>
@@ -218,28 +223,20 @@ function Spreadsheet({ onClose }) {
       </div>
 
       <div className="buttons-container">
-        <button onClick={openAccessModal} className="action-button">Save</button>
-        <div className="uuid-container">
-          <p className="uuid-text">UUID: {uuid}</p>
-          <button onClick={copyUuidToClipboard} className="copy-button">Copy UUID</button>
-        </div>
+        <button onClick={openAccessModal} className="action-button save">Save Data</button>
+        <button onClick={copyUuidToClipboard} className="action-button copy-uuid">Copy UUID</button>
       </div>
-      
-      <h2 className="spreadsheet-title">Spreadsheet</h2>
-      <div ref={containerRef} className="spreadsheet-table"></div>
 
-      {/* Modal */}
+      <div ref={containerRef} className="handsontable-container"></div>
+
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <p>{modalMessage}</p>
+            <h3>{modalMessage}</h3>
             <button onClick={closeModal} className="modal-close-button">Close</button>
           </div>
         </div>
       )}
-
-      {/* Access Control Modal */}
-      
     </div>
   );
 }
