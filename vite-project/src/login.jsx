@@ -43,7 +43,7 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("http://localhost:1313/login", { email, password });
+    const res = await axios.post("https://collab-sheet-5.onrender.com/login", { email, password });
     if (res.data !== "err") {
       setSuccessMessage('Login successful!');
       localStorage.setItem("email", res.data.email);
@@ -68,7 +68,7 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("http://localhost:1313/register", { name, email, password, phoneNumber });
+    const res = await axios.post("https://collab-sheet-5.onrender.com/register", { name, email, password, phoneNumber });
     if (res.data === "OK") {
       localStorage.setItem("name", name);
       localStorage.setItem("email", email);
