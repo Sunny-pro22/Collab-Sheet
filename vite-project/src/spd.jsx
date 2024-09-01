@@ -22,7 +22,7 @@ function Spreadsheet({ onClose }) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io("https://collab-sheet-5.onrender.com/data");
+    const socketInstance = io("https://collab-sheet-5.onrender.com");
     socketInstance.on("connect", () => {
       console.log("Connected to server");
     });
@@ -123,7 +123,7 @@ function Spreadsheet({ onClose }) {
     }
 
     try {
-      const response = await axios.post('https://collab-sheet-5.onrender.com/data/save', { data, email, uuid, accessOption });
+      const response = await axios.post('https://collab-sheet-5.onrender.com/save', { data, email, uuid, accessOption });
       if (response.status === 200) {
         setModalMessage('Data saved successfully!');
         socket.emit("save-data", { data, uuid }); // Notify server of saved data
