@@ -29,7 +29,7 @@ export default function Croom({ onClose }) {
       }
     };
     try {
-      const res = await axios.post("https://collab-sheet-5.onrender.com/spd", { id, user }, config);
+      const res = await axios.post("https://collab-sheet-5.onrender.com/spd", { id,user}, config);
       console.log(res.data);
       if (res.data === "Access denied") {
         setError("Access denied");
