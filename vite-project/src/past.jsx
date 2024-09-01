@@ -27,7 +27,7 @@ export default function Past() {
             'Content-Type': 'application/json'
           }
         };
-        const res = await axios.post('http://https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
+        const res = await axios.post('https://https://collab-sheet-5.onrender.com/crtdSheet', { email: userEmail }, config);
         
         if (res.data.success) {
           setUids(res.data.uids);
