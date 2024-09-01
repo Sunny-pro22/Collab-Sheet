@@ -44,16 +44,23 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("https://collab-sheet-5.onrender.com/login", { email, password });
-    if (res.data !== "err") {
-      setSuccessMessage('Login successful!');
-      localStorage.setItem("email", res.data.email);
-      localStorage.setItem("name", res.data.name);
-      localStorage.setItem("phoneNumber", res.data.phoneNumber);
-      setSuccess(true);
-      window.location.reload(); 
-    } else {
-      setErrl(true);
+    setLoading(true); // Show loading spinner
+    try {
+      const res = await axios.post("https://collab-sheet-5.onrender.com/login", { email, password });
+      if (res.data !== "err") {
+        setSuccessMessage('Login successful!');
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("phoneNumber", res.data.phoneNumber);
+        setSuccess(true);
+        window.location.reload(); 
+      } else {
+        setErrl(true);
+      }
+    } catch (error) {
+      setErr(true); // Handle network errors
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
@@ -69,16 +76,23 @@ export default function Login({ show, onClose }) {
       return;
     }
 
-    const res = await axios.post("https://collab-sheet-5.onrender.com/register", { name, email, password, phoneNumber });
-    if (res.data === "OK") {
-      localStorage.setItem("name", name);
-      localStorage.setItem("email", email);
-      localStorage.setItem("phoneNumber", phoneNumber);
-      setSuccessMessage('Registration successful!');
-      setSuccess(true);
-      window.location.reload(); 
-    } else {
-      setErr(true);
+    setLoading(true); // Show loading spinner
+    try {
+      const res = await axios.post("https://collab-sheet-5.onrender.com/register", { name, email, password, phoneNumber });
+      if (res.data === "OK") {
+        localStorage.setItem("name", name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("phoneNumber", phoneNumber);
+        setSuccessMessage('Registration successful!');
+        setSuccess(true);
+        window.location.reload(); 
+      } else {
+        setErr(true);
+      }
+    } catch (error) {
+      setErr(true); // Handle network errors
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
